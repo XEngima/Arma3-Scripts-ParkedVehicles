@@ -23,7 +23,7 @@ PARKEDVEHICLES_GarageDefinitions = [
 	["Land_i_Garage_V1_F", 2, [-0.5, -1, 0], 90],
 	["Land_MilOffices_V1_F", -1, [-7, 11, 0.1], 270],
 	["Land_FuelStation_Shed_F", 0, [0, 0, 0.1], 0],
-	["Land_i_Stone_HouseBig_V2_F", -1, [6, -0.5, 0], 180],
+	["Land_i_Stone_HouseBig_V2_F", -1, [6.5, -1, 0], 180],
 	["Land_i_Stone_HouseSmall_V2_F", -1, [0, -7, 0], 90],
 	
 	/* Primary Tanoa */

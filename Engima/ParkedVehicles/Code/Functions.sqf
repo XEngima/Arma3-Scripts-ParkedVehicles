@@ -209,7 +209,7 @@ PARKEDVEHICLES_PlaceVehiclesOnMap = {
 							_spawnPos = [_spawnPos select 0, _spawnPos select 1, _offsetPosition select 2]; // z
 							
 							private _objectsTooClose = false;
-							private _nearObjects = (_spawnPos nearObjects 3) + (nearestTerrainObjects [_spawnPos, [], 3]);
+							private _nearObjects = (_spawnPos nearObjects 3) + ([_spawnPos select 0, _spawnPos select 1, 3] nearObjects 3) + (nearestTerrainObjects [_spawnPos, [], 3]) + (nearestTerrainObjects [[_spawnPos select 0, _spawnPos select 1, 3], [], 3]);
 							
 							{
 								private _box = boundingBox _x;
