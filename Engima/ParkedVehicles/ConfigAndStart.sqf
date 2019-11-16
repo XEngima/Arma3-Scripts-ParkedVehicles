@@ -15,7 +15,7 @@ _parameters = [
 	["PROBABILITY_OF_PRESENCE", 0.5],
 	["ON_VEHICLE_CREATED", {}],
 	["ON_VEHICLE_REMOVING", {}],
-	["DEBUG", true]
+	["DEBUG", false]
 ];
 
 // Run script

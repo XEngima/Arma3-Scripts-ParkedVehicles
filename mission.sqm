@@ -104,7 +104,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={10964.69,29.629734,13508.504};
+						position[]={10961.783,29.825424,13518.725};
 						angles[]={0,0.28281412,0};
 					};
 					side="West";
@@ -128,7 +128,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={10955.125,31.994894,13531.45};
-				angles[]={6.2685246,0,6.2605257};
+				angles[]={6.2685246,5.5383162,6.2605257};
 			};
 			side="Empty";
 			flags=4;
