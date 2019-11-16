@@ -44,14 +44,14 @@ PARKEDVEHICLES_GetBuildingDefinition = {
 // _vehicle (Object): The vehicle to test.
 // Returns (Scalar): The distance to nearest player in meters.
 PARKEDVEHICLES_GetClosestDistanceToPlayer = {
-	params ["_vehicle"];
+	params ["_pos"];
 	private _allPlayers = (call BIS_fnc_listPlayers) - (entities "HeadlessClient_F");
 	
 	private _closestDistance = 9999999;
 	
 	{
-		if (_x distance2D _vehicle < _closestDistance) then {
-			_closestDistance = _x distance2D _vehicle;
+		if (_x distance2D _pos < _closestDistance) then {
+			_closestDistance = _x distance2D _pos;
 		};
 	} foreach _allPlayers;
 	
@@ -72,6 +72,7 @@ PARKEDVEHICLES_PlaceVehiclesOnMap = {
 		sleep 1;
 		
 		private _allVehicles = [];
+		private _allDebugMarkers = [];
 		
 		while { true } do
 		{
@@ -91,7 +92,7 @@ PARKEDVEHICLES_PlaceVehiclesOnMap = {
 				}
 				else
 				{
-					private _distanceToNearestPlayer = [_vehicle] call PARKEDVEHICLES_GetClosestDistanceToPlayer;
+					private _distanceToNearestPlayer = [getPos _vehicle] call PARKEDVEHICLES_GetClosestDistanceToPlayer;
 					
 					if (_distanceToNearestPlayer > _spawnRadius) then {
 						private _building = _vehicle getVariable "ParkedVehicles_Building";
@@ -107,6 +108,26 @@ PARKEDVEHICLES_PlaceVehiclesOnMap = {
 			} foreach _allVehicles;
 			
 			_allVehicles = _vehiclesToKeep;
+
+			/* Remove all debug markers that are too far away */
+			
+			if (_debug) then
+			{
+				private _debugMarkersToKeep = [];
+				
+				{
+					private _distanceToNearestPlayer = [getMarkerPos _x] call PARKEDVEHICLES_GetClosestDistanceToPlayer;
+					
+					if (_distanceToNearestPlayer > _spawnRadius) then {
+						deleteMarker _x;
+					}
+					else {
+						_debugMarkersToKeep pushBack _x;
+					};
+				} foreach _allDebugMarkers;
+			
+				_allDebugMarkers = _debugMarkersToKeep;
+			};
 			
 			/* foreach _buildingClasses */
 			{
@@ -216,8 +237,8 @@ PARKEDVEHICLES_PlaceVehiclesOnMap = {
 								};
 								
 								// Monitor vehicle health
-								[_vehicle, _buildingClass, _vehicleClass, _spawnPos, _onVehicleCreated, _allVehicles, _building, _firstSpawnInThisBuilding, _debug] spawn {
-									params ["_vehicle", "_buildingClass", "_vehicleClass", "_spawnPos", "_onVehicleCreated", "_allVehicles", "_building", "_firstSpawnInThisBuilding", "_debug"];
+								[_vehicle, _buildingClass, _vehicleClass, _spawnPos, _onVehicleCreated, _allVehicles, _building, _firstSpawnInThisBuilding, _allDebugMarkers, _debug] spawn {
+									params ["_vehicle", "_buildingClass", "_vehicleClass", "_spawnPos", "_onVehicleCreated", "_allVehicles", "_building", "_firstSpawnInThisBuilding", "_allDebugMarkers", "_debug"];
 									
 									sleep 1;
 									
@@ -230,6 +251,17 @@ PARKEDVEHICLES_PlaceVehiclesOnMap = {
 											_building setVariable ["ParkedVehicles_SpawnedVehicle", _vehicle];
 											_building setVariable ["ParkedVehicles_VehicleTextures", getObjectTextures _vehicle];
 											_vehicle setVariable ["ParkedVehicles_Building", _building];
+								
+											if (_debug) then
+											{
+												private _debugMarker = createMarker [format ["parked_vehicles_marker%1", PARKEDVEHICLES_UniqueMarkerNo], _spawnPos];
+												PARKEDVEHICLES_UniqueMarkerNo = PARKEDVEHICLES_UniqueMarkerNo + 1;
+												_allDebugMarkers pushBack _debugMarker;
+												
+												_debugMarker setMarkerShape "ICON";
+												_debugMarker setMarkerType "mil_dot";
+												_debugMarker setMarkerColor "ColorWhite";
+											};
 										};
 									}
 									else {
@@ -244,6 +276,7 @@ PARKEDVEHICLES_PlaceVehiclesOnMap = {
 											
 											private _marker = createMarker ["ParkedVehiclesFailMarker" + str PARKEDVEHICLES_UniqueMarkerNo, _spawnPos];
 											PARKEDVEHICLES_UniqueMarkerNo = PARKEDVEHICLES_UniqueMarkerNo + 1;
+											_allDebugMarkers pushBack _marker;
 										
 											_marker setMarkerType "mil_dot";
 											_marker setMarkerColor "ColorBlack";
@@ -253,16 +286,6 @@ PARKEDVEHICLES_PlaceVehiclesOnMap = {
 										deleteVehicle _vehicle;
 									};
 								};
-								
-								if (_debug) then
-								{
-									private _debugMarker = createMarker [format ["parked_vehicles_marker%1", PARKEDVEHICLES_UniqueMarkerNo], _spawnPos];
-									PARKEDVEHICLES_UniqueMarkerNo = PARKEDVEHICLES_UniqueMarkerNo + 1;
-									
-									_debugMarker setMarkerShape "ICON";
-									_debugMarker setMarkerType "mil_dot";
-									_debugMarker setMarkerColor "ColorWhite";
-								};
 							}
 							else {
 								if (_debug) then {
@@ -270,6 +293,7 @@ PARKEDVEHICLES_PlaceVehiclesOnMap = {
 									
 									private _debugMarker = createMarker [format ["parked_vehicles_marker%1", PARKEDVEHICLES_UniqueMarkerNo], _spawnPos];
 									PARKEDVEHICLES_UniqueMarkerNo = PARKEDVEHICLES_UniqueMarkerNo + 1;
+									_allDebugMarkers pushBack _debugMarker;
 									
 									_debugMarker setMarkerShape "ICON";
 									_debugMarker setMarkerType "mil_dot";
@@ -283,7 +307,7 @@ PARKEDVEHICLES_PlaceVehiclesOnMap = {
 			} foreach _buildingClasses;
 			
 			if (_debug) then {
-				player sideChat (str (count _allVehicles)) + " vehicles spawned in or near garages/buildings."
+				player sideChat "Engima's Parked Vehicles: " + (str (count _allVehicles)) + " vehicles currently in or near garages/buildings."
 			};
 			
 			sleep 5;

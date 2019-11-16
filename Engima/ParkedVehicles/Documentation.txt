@@ -1,6 +1,6 @@
-----------------------------------------------
- - ENGIMA'S PARKED VEHICLES (VERSION 0.14) -
-----------------------------------------------
+--------------------------------------------
+ - ENGIMA'S PARKED VEHICLES (VERSION 1.0) -
+--------------------------------------------
 
 Engima's Parked Vehicles is a scripts that adds parked vehicles to an Arma 3 mission.
 
@@ -24,6 +24,7 @@ https://github.com/XEngima/Arma3-Scripts-ParkedVehicles
 
 --- VERSION HISTORY ---
 
+1.0:   Fixed: Debug markers were not removed upon player absence.
 0.14:  Added garage definitions for two buildings.
        Made vehicles spawn and despawn depending on player presence.
 0.13:  Added callback ON_VEHICLE_CREATED in parameter list.
