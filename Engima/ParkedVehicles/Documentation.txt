@@ -24,6 +24,8 @@ https://github.com/XEngima/Arma3-Scripts-ParkedVehicles
 
 --- VERSION HISTORY ---
 
+1.1:   Added function PARKEDVEHICLES_MonitorGarageDefinition that can be used to create garage definitions.
+       Fixed: Script error when BUILDING_TYPES parameter conatins entries that are not represented as a garage definition.
 1.0:   Fixed: Debug markers were not removed upon player absence.
 0.14:  Added garage definitions for two buildings.
        Made vehicles spawn and despawn depending on player presence.

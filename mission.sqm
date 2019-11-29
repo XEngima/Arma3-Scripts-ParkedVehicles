@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=10;
+		nextID=28;
 	};
 	class MarkerIDProvider
 	{
@@ -16,34 +16,42 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={10996.884,56.048004,13498.588};
-		dir[]={-0.56576383,-0.48506865,0.66680336};
-		up[]={-0.31382692,0.87447327,0.36987364};
-		aside[]={0.76251626,3.0217052e-008,0.64697236};
+		pos[]={3868.9678,18.798214,13252.663};
+		dir[]={-0.6147387,-0.34816346,0.70787275};
+		up[]={-0.22831868,0.93739128,0.26290807};
+		aside[]={0.75510764,9.9457975e-007,0.6557585};
 	};
 };
 binarizationWanted=0;
 addons[]=
 {
+	"A3_Air_F_Heli_Light_01",
 	"A3_Characters_F",
-	"A3_Air_F_Heli_Light_01"
+	"A3_Soft_F_Quadbike_01"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=2;
+		items=3;
 		class Item0
+		{
+			className="A3_Air_F";
+			name="Arma 3 Alpha - Aircraft";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item1
 		{
 			className="A3_Characters_F";
 			name="Arma 3 Alpha - Characters and Clothing";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item1
+		class Item2
 		{
-			className="A3_Air_F";
-			name="Arma 3 Alpha - Aircraft";
+			className="A3_Soft_F";
+			name="Arma 3 Alpha - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
@@ -76,21 +84,23 @@ class Mission
 	};
 	class Entities
 	{
-		items=3;
+		items=4;
 		class Item0
 		{
-			dataType="Trigger";
-			position[]={26981.213,23.609381,24613.166};
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={14450.753,19.60194,15996.688};
+				angles[]={0.0013372133,5.5383162,6.2818484};
+			};
+			side="Empty";
+			flags=4;
 			class Attributes
 			{
-				onActivation="call PARKEDVEHICLES_InvestigateClosestBuilding;";
-				sizeA=0;
-				sizeB=0;
-				activationBy="ALPHA";
 			};
-			id=5;
-			type="EmptyDetector";
-			atlOffset=1.9073486e-006;
+			id=9;
+			type="B_Heli_Light_01_dynamicLoadout_F";
+			atlOffset=-0.00061416626;
 		};
 		class Item1
 		{
@@ -104,8 +114,8 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={10961.783,29.825424,13518.725};
-						angles[]={0,0.28281412,0};
+						position[]={3867.3506,16.251438,13256.086};
+						angles[]={0,5.3896928,0};
 					};
 					side="West";
 					flags=7;
@@ -120,23 +130,39 @@ class Mission
 			class Attributes
 			{
 			};
-			id=6;
+			id=10;
 		};
 		class Item2
 		{
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={10955.125,31.994894,13531.45};
-				angles[]={6.2685246,5.5383162,6.2605257};
+				position[]={3863.717,17.747196,13259.585};
+				angles[]={6.2698507,3.1551714,0.047961645};
 			};
 			side="Empty";
 			flags=4;
 			class Attributes
 			{
+				name="quadbike";
 			};
-			id=9;
-			type="B_Heli_Light_01_dynamicLoadout_F";
+			id=26;
+			type="B_Quadbike_01_F";
+			atlOffset=-0.0039978027;
+		};
+		class Item3
+		{
+			dataType="Trigger";
+			position[]={3861.469,16.227234,13248.238};
+			class Attributes
+			{
+				onActivation="_nil = [nearestBuilding quadbike, quadbike] spawn PARKEDVEHICLES_MonitorGarageDefinition;";
+				sizeA=0;
+				sizeB=0;
+				activationBy="ALPHA";
+			};
+			id=27;
+			type="EmptyDetector";
 		};
 	};
 };
